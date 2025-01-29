@@ -33,4 +33,4 @@ EXPOSE 8080
 EXPOSE 8081
 
 # Defina o comando para rodar a aplicação
-ENTRYPOINT ["dotnet", "SnackTech.Driver.API.Products.dll"]
+ENTRYPOINT ["dotnet", "SnackTech.Products.Driver.API.dll"]

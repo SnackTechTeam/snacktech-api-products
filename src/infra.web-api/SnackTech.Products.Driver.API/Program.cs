@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
     c.DescribeAllParametersInCamelCase();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SnackTech", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SnackTechProducts", Version = "v1" });
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
@@ -55,7 +55,7 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SnackTech API v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SnackTechProducts API v1");
 });
 
 //app.UseHttpsRedirection();
