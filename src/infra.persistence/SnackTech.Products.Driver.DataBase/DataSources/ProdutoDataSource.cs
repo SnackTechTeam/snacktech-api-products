@@ -82,11 +82,12 @@ namespace SnackTech.Products.Driver.DataBase.DataSources
             if (produto is null)
                 return false;
 
-            var existeItemAssociado = await _repositoryDbContext.PedidoItens
-                .AnyAsync(p => p.Produto.Id == identificacao);
+            //TODO: Realizar validação se existe o pedido no ms de pedidos
+            //var existeItemAssociado = await _repositoryDbContext.PedidoItens
+            //    .AnyAsync(p => p.Produto.Id == identificacao);
 
-            if (existeItemAssociado)
-                throw new ProdutoRepositoryException("Não foi possível remover o produto. Existem itens de pedidos associados a este produto.");
+            //if (existeItemAssociado)
+            //    throw new ProdutoRepositoryException("Não foi possível remover o produto. Existem itens de pedidos associados a este produto.");
 
             _repositoryDbContext.Produtos.Remove(produto);
             var resultado = await _repositoryDbContext.SaveChangesAsync();

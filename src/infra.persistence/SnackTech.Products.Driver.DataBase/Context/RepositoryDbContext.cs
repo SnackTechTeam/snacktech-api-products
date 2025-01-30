@@ -7,7 +7,6 @@ namespace SnackTech.Products.Driver.DataBase.Context
     [ExcludeFromCodeCoverage]
     public class RepositoryDbContext(DbContextOptions options) : DbContext(options)
     {
-        public DbSet<PedidoItem> PedidoItens { get; set; }
         public DbSet<Produto> Produtos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) =>
