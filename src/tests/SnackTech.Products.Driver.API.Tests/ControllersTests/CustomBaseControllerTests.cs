@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -12,6 +13,7 @@ namespace SnackTech.Products.Driver.API.Tests.ControllersTests
         private readonly Mock<ILogger> logger;
         private readonly Mock<CustomBaseController> mockBaseController;
         private readonly CustomBaseController baseController;
+        private readonly CustomBaseController _controller;
 
         public CustomBaseControllerTests()
         {
@@ -21,6 +23,7 @@ namespace SnackTech.Products.Driver.API.Tests.ControllersTests
                 CallBase = true
             };
             baseController = mockBaseController.Object;
+            _controller = new TestController(logger.Object);
         }
 
         [Fact]
@@ -99,5 +102,57 @@ namespace SnackTech.Products.Driver.API.Tests.ControllersTests
             Assert.NotNull(payload);
             Assert.Equal("Erro inesperado", payload.Message);
         }
+
+        [Fact]
+        public async Task ExecucaoPadrao_Success_ReturnsOk()
+        {
+            // Arrange
+            var resultadoOperacao = new ResultadoOperacao();
+            var task = Task.FromResult(resultadoOperacao);
+
+            // Act
+            var result = await _controller.ExecucaoPadrao("TestMethod", task);
+
+            // Assert
+            Assert.IsType<OkResult>(result);
+        }
+
+        [Fact]
+        public async Task ExecucaoPadrao_Exception_ReturnsInternalServerError()
+        {
+            // Arrange
+            var exception = new Exception("Test exception");
+            var resultadoOperacao = new ResultadoOperacao(exception);
+            var task = Task.FromResult(resultadoOperacao);
+
+            // Act
+            var result = await _controller.ExecucaoPadrao("TestMethod", task);
+
+            // Assert
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task ExecucaoPadrao_Failure_ReturnsBadRequest()
+        {
+            // Arrange
+            var resultadoOperacao = new ResultadoOperacao("Test error message");
+            var task = Task.FromResult(resultadoOperacao);
+
+            // Act
+            var result = await _controller.ExecucaoPadrao("TestMethod", task);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            var errorResponse = Assert.IsType<ErrorResponse>(badRequestResult.Value);
+            Assert.Equal("Test error message", errorResponse.Message);
+        }
+
+        private class TestController : CustomBaseController
+        {
+            public TestController(ILogger logger) : base(logger) { }
+        }
     }
+
 }
