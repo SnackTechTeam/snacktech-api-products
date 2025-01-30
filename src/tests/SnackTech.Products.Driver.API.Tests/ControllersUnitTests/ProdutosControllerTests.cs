@@ -5,7 +5,7 @@ using SnackTech.Products.Common.Dto.Api;
 using SnackTech.Products.Core.Interfaces;
 using SnackTech.Products.Driver.API.Controllers;
 
-namespace SnackTech.Products.Driver.API.Tests.ControllersTests
+namespace SnackTech.Products.Driver.API.Tests.ControllersUnitTests
 {
     public class ProdutosControllerTestes
     {

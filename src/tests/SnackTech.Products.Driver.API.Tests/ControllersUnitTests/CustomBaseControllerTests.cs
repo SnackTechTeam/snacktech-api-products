@@ -6,7 +6,7 @@ using SnackTech.Products.Common.Dto.Api;
 using SnackTech.Products.Driver.API.Controllers;
 using SnackTech.Products.Driver.API.CustomResponses;
 
-namespace SnackTech.Products.Driver.API.Tests.ControllersTests
+namespace SnackTech.Products.Driver.API.Tests.ControllersUnitTests
 {
     public class CustomBaseControllerTests
     {
@@ -154,5 +154,4 @@ namespace SnackTech.Products.Driver.API.Tests.ControllersTests
             public TestController(ILogger logger) : base(logger) { }
         }
     }
-
 }
