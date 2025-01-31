@@ -39,5 +39,12 @@ public class ProdutoController(IProdutoDataSource produtoDataSource) : IProdutoC
         var produtos = await ProdutoUseCase.BuscarProdutoPorCategoria(categoriaId,gateway);
 
         return produtos;
-    } 
+    }
+
+    public async Task<ResultadoOperacao<ProdutoDto>> BuscarProdutoPorId(Guid id)
+    {
+        var gateway = new ProdutoGateway(produtoDataSource);
+        var produto = await ProdutoUseCase.BuscarProdutoPorIdentificacao(id, gateway);
+        return produto;
+    }
 }

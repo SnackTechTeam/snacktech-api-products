@@ -32,4 +32,20 @@
     <ProjectReference Include="..\..\infra.web-api\SnackTech.Products.Driver.API\SnackTech.Products.Driver.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="ControllersFunctionalTests\Features\ProdutosControllerGetByIdTestes.feature.cs">
+      <Visible>true</Visible>
+      <DependentUpon>ProdutosControllerGetByIdTestes.feature</DependentUpon>
+      <DesignTime>true</DesignTime>
+      <AutoGen>true</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFlowFeatureFiles Update="ControllersFunctionalTests\Features\ProdutosControllerGetByIdTestes.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+  </ItemGroup>
+
 </Project>

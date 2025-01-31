@@ -102,5 +102,25 @@ namespace SnackTech.Products.Driver.API.Tests.ControllersUnitTests
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.IsAssignableFrom<IEnumerable<ProdutoDto>>(okResult.Value);
         }
+
+        [Fact]
+        public async Task GetById_DeveRetornarOkResult_QuandoProdutoForEncontrado()
+        {
+            // Arrange
+            var identificacao = Guid.NewGuid();
+            var produtoDto = new ProdutoDto { IdentificacaoProduto = identificacao, Nome = "Produto 1", Descricao = "Descricao 1", Categoria = 1, Valor = 10.0m };
+            var resultadoOperacao = new ResultadoOperacao<ProdutoDto>(produtoDto);
+            _produtoControllerMock.Setup(x => x.BuscarProdutoPorId(identificacao)).ReturnsAsync(resultadoOperacao);
+            // Act
+            var result = await _controller.GetById(identificacao);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var produtoRetornado = Assert.IsType<ProdutoDto>(okResult.Value);
+            Assert.Equal(produtoDto.IdentificacaoProduto, produtoRetornado.IdentificacaoProduto);
+            Assert.Equal(produtoDto.Nome, produtoRetornado.Nome);
+            Assert.Equal(produtoDto.Descricao, produtoRetornado.Descricao);
+            Assert.Equal(produtoDto.Categoria, produtoRetornado.Categoria);
+            Assert.Equal(produtoDto.Valor, produtoRetornado.Valor);
+        }
     }
 }

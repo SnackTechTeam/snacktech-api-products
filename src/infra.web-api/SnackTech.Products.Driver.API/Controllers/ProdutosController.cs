@@ -69,5 +69,14 @@ namespace SnackTech.Products.Driver.API.Controllers
         [SwaggerOperation(Summary = "Retorna todos os produtos de uma categoria informada. Categorias cadastradas: 1. Lanche, 2. Acompanhamento, 3. Bebida, 4. Sobremesa")]
         public async Task<IActionResult> GetByCategory(int categoriaId)
             => await ExecucaoPadrao("Produtos.GetPorCategoria", produtoController.BuscarProdutosPorCategoria(categoriaId));
+
+        [HttpGet]
+        [ProducesResponseType<IEnumerable<ProdutoDto>>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ErrorResponse>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<ErrorResponse>(StatusCodes.Status500InternalServerError)]
+        [Route("{identificacao:guid}")]
+        [SwaggerOperation(Summary = "Retorna o produto cadastrado por id")]
+        public async Task<IActionResult> GetById(Guid identificacao)
+            => await ExecucaoPadrao("Produtos.GetPorId", produtoController.BuscarProdutoPorId(identificacao));
     }
 }

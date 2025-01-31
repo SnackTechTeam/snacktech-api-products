@@ -64,5 +64,41 @@ namespace SnackTech.Products.Driver.API.Tests.ControllersFunctionalTests
         }
 
         #endregion
+
+        #region GetById - Buscar produto por identificador
+        [Given(@"que eu tenho um identificador de produto válido")]
+        public void DadoQueEuTenhoUmIdentificadorDeProdutoValido()
+        {
+            var id = Guid.NewGuid();
+            produtoController.Setup(p => p.BuscarProdutoPorId(id))
+                .ReturnsAsync(new ResultadoOperacao<ProdutoDto>(new ProdutoDto
+                {
+                    IdentificacaoProduto = id,
+                    Nome = "Produto 1",
+                    Descricao = "Desc 1",
+                    Categoria = 1,
+                    Valor = 10.0m
+                }));
+        }
+        [When(@"eu chamar o método GetById")]
+        public async Task QuandoEuChamarOMetodoGetById()
+        {
+            result = await controller.GetById(Guid.NewGuid());
+        }
+        [Then(@"o resultado deve ser um OkObjectResult com o produto")]
+        public void EntaoOResultadoDeveSerUmOkObjectResultComOProduto()
+        {
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var produto = Assert.IsType<ProdutoDto>(okResult.Value);
+            Assert.NotNull(produto);
+        }
+        [Then(@"o produto deve ser retornado")]
+        public void EntaoOProdutoDeveSerRetornado()
+        {
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var produto = Assert.IsAssignableFrom<ProdutoDto>(okResult.Value);
+            Assert.NotNull(produto);
+        }
+        #endregion
     }
 }
