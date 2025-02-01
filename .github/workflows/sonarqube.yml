@@ -28,6 +28,6 @@ jobs:
       run: |
         dotnet-sonarscanner begin /k:"SnackTechTeam_SnackTech" /o:"snacktechteam" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
 
-        dotnet build ./src/SnackTech.sln
+        dotnet build ./src/snacktech-api-products.sln
 
         dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
