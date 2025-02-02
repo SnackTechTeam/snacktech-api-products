@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: snack-tech-api-deployment
+  name: api-products-deployment
 spec:
   selector:
     matchLabels:
-      app: snack-tech-api-pod
+      app: api-products-pod
   template:
     metadata:
       labels:
-        app: snack-tech-api-pod
+        app: api-products-pod
     spec:
       containers:
-        - name: snack-tech-api-container
+        - name: api-products-container
           image: # valor será incluido no pipeline
           env:
             - name: ASPNETCORE_ENVIRONMENT
@@ -20,7 +20,7 @@ spec:
             - name: ConnectionStrings__DefaultConnection
               valueFrom:
                 secretKeyRef:
-                  name: snack-tech-api-secret
+                  name: api-products-secret
                   key: msslq-connection-string
           resources:
             limits:
