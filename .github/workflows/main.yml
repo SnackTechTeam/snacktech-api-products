@@ -80,6 +80,9 @@ jobs:
 
   ## Adicionar os passos de deploy aqui, colocar check para que só ocorra se for um pull request para main 
   deploy:
+    name: Deploy
+    # Executar apenas se a branch for main e o evento for push
+    if: github.ref == 'refs/heads/main' and github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: build
 
