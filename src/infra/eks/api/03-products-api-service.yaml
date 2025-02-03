@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: snack-tech-api-service
+  name: api-products-service
   labels:
-    run: snack-tech-api-service
+    run: api-products-service
 spec:
   selector:
-    app: snack-tech-api-pod
+    app: api-products-pod
   ports:
   - name: port8080  
     port: 8080    
