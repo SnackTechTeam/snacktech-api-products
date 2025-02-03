@@ -124,15 +124,16 @@ jobs:
       
       - name: Replace connection string value
         env:
-          MSSQL_CONNECTION_STRING: ${{ secrets.DB_PRODUCTS_CONNECTION_STRING }}
+          MSSQL_CONNECTION_STRING: "Server=${{ vars.DB_INSTANCE_PRODUTOS }};Database=SnackTechProductsDb;User Id=${{ vars.DB_UID_PRODUTOS }};Password=${{ vars.DB_PASSWORD_PRODUTOS }}; Encrypt=True;TrustServerCertificate=True"
         run: |
-          yq e '.data["msslq-connection-string"] = "'"$MSSQL_CONNECTION_STRING"'"' -i src/infra/eks/api/01-snack-tech-api-secret.yaml || { echo "Error updating msslq-connection-string value"; exit 1; }
+          CONNECTION_STRING_B64=$(echo "$MSSQL_CONNECTION_STRING" | base64)
+          yq e '.data["msslq-connection-string"] = "'"$CONNECTION_STRING_B64"'"' -i src/infra/eks/api/01-products-api-secret.yaml || { echo "Error updating msslq-connection-string value"; exit 1; }
       
       - name: Replace ECR image string value
         env:
           IMAGE_URI: ${{ steps.build-image.outputs.image }}
         run: |
-          yq e '.spec.template.spec.containers[0].image = "'"$IMAGE_URI"'"' -i src/infra/eks/api/02-snack-tech-api-deployment.yaml || { echo "Error updating ecr_image_url_repo_tag value"; exit 1; }
+          yq e '.spec.template.spec.containers[0].image = "'"$IMAGE_URI"'"' -i src/infra/eks/api/02-products-api-deployment.yaml || { echo "Error updating ecr_image_url_repo_tag value"; exit 1; }
       - name: Deploy to EKS
         run: |
           kubectl apply -f src/infra/eks/api
