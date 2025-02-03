@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: snack-tech-api-hpa
+  name: api-products-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: snack-tech-api-deployment
+    name: api-products-deployment
   minReplicas: 1
   maxReplicas: 10
   metrics:
