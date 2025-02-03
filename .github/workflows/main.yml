@@ -8,6 +8,8 @@ on:
 
 jobs:
   build:
+    name: Build
+    if: github.ref == 'refs/heads/main' or github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
 
     steps:
