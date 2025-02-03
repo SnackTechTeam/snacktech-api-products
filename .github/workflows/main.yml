@@ -127,7 +127,7 @@ jobs:
       
       - name: Replace connection string value
         env:
-          MSSQL_CONNECTION_STRING: "Server=${{ vars.DB_INSTANCE_PRODUTOS }};Database=SnackTechProductsDb;User Id=${{ vars.DB_UID_PRODUTOS }};Password=${{ vars.DB_PASSWORD_PRODUTOS }}; Encrypt=True;TrustServerCertificate=True"
+          MSSQL_CONNECTION_STRING: "Server=${{ secrets.DB_INSTANCE_PRODUTOS }};Database=SnackTechProductsDb;User Id=${{ secrets.DB_UID_PRODUTOS }};Password=${{ secrets.DB_PASSWORD_PRODUTOS }}; Encrypt=True;TrustServerCertificate=True"
         run: |
           CONNECTION_STRING_B64=$(echo "$MSSQL_CONNECTION_STRING" | base64)
           yq e '.data["msslq-connection-string"] = "'"$CONNECTION_STRING_B64"'"' -i src/infra/eks/api/01-products-api-secret.yaml || { echo "Error updating msslq-connection-string value"; exit 1; }
