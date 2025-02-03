@@ -376,3 +376,7 @@ FodyWeavers.xsd
 
 # Rider project files
 *.sln.iml
+
+# Arquivos relacionados a testes
+src/merged.cobertura.xml
+**/*.feature.cs
