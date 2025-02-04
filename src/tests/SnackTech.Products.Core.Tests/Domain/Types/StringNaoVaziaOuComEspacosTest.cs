@@ -58,16 +58,22 @@ public class StringNaoVaziaOuComEspacosTest
     {
         string valor = null;
 
-         Assert.Throws<ArgumentException>(() => {StringNaoVaziaOuComEspacos stringNaoVaziaOuComEspacos = valor; });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            StringNaoVaziaOuComEspacos stringNaoVaziaOuComEspacos = valor;
+        });
     }
 
 
     [Fact]
     public void ImplicitOperator_ConvertsStringWithOnlySpacesToStringNaoVaziaOuComEspacos_ThrowsArgumentException()
     {
-        string valor = "   ";
+        var valor = "   ";
 
-        Assert.Throws<ArgumentException>(() => {StringNaoVaziaOuComEspacos stringNaoVaziaOuComEspacos = valor; });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            StringNaoVaziaOuComEspacos stringNaoVaziaOuComEspacos = valor;
+        });
     }
 
 

@@ -1,51 +1,50 @@
-namespace SnackTech.Products.Core.Domain.Types
+namespace SnackTech.Products.Core.Domain.Types;
+
+internal class StringNaoVaziaOuComEspacos : IEquatable<StringNaoVaziaOuComEspacos>
 {
-    internal class StringNaoVaziaOuComEspacos : IEquatable<StringNaoVaziaOuComEspacos>
+    private string valor = default!;
+
+    internal StringNaoVaziaOuComEspacos(string value)
     {
-        private string valor = default!;
+        Valor = value;
+    }
 
-        internal string Valor
+    internal string Valor
+    {
+        get => valor;
+        set
         {
-            get { return valor; }
-            set
-            {
-                ValidarValorString(value);
-                valor = value;
-            }
+            ValidarValorString(value);
+            valor = value;
         }
+    }
 
-        internal StringNaoVaziaOuComEspacos(string value)
-        {
-            Valor = value;
-        }
+    public bool Equals(StringNaoVaziaOuComEspacos? other)
+    {
+        if (other == null) return false;
+        if (ReferenceEquals(this, other)) return true;
 
-        public static implicit operator StringNaoVaziaOuComEspacos(string value)
-        {
-            return new StringNaoVaziaOuComEspacos(value);
-        }
+        return Valor == other.Valor;
+    }
 
-        public static implicit operator string(StringNaoVaziaOuComEspacos valor)
-        {
-            return valor.ToString();
-        }
+    public static implicit operator StringNaoVaziaOuComEspacos(string value)
+    {
+        return new StringNaoVaziaOuComEspacos(value);
+    }
 
-        public override string ToString()
-            => Valor;
+    public static implicit operator string(StringNaoVaziaOuComEspacos valor)
+    {
+        return valor.ToString();
+    }
 
-        private static void ValidarValorString(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value) || string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException("O valor atribuído não pode ser nulo, vazio ou somente com espaços");
-            }
-        }
+    public override string ToString()
+    {
+        return Valor;
+    }
 
-        public bool Equals(StringNaoVaziaOuComEspacos? other)
-        {
-            if (other == null) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return this.Valor == other.Valor;
-        }
+    private static void ValidarValorString(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value) || string.IsNullOrEmpty(value))
+            throw new ArgumentException("O valor atribuído não pode ser nulo, vazio ou somente com espaços");
     }
 }

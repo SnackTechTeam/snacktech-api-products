@@ -1,8 +1,8 @@
-namespace SnackTech.Products.Common.CustomExceptions
+namespace SnackTech.Products.Common.CustomExceptions;
+
+public class ProdutoRepositoryException : Exception
 {
-    public class ProdutoRepositoryException : Exception
+    public ProdutoRepositoryException(string message) : base(message)
     {
-        public ProdutoRepositoryException(string message) : base(message)
-        {}
     }
 }

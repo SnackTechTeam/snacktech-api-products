@@ -1,17 +1,20 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace SnackTech.Products.Driver.DataBase.Context
+namespace SnackTech.Products.Driver.DataBase.Context;
+
+public class RepositoryDbContextFactory : IDesignTimeDbContextFactory<RepositoryDbContext>
 {
-    /// <summary>
-    /// For local use only
-    /// </summary>
-    [ExcludeFromCodeCoverage]
-    public class RepositoryDbContextFactory : IDesignTimeDbContextFactory<RepositoryDbContext>
+    public RepositoryDbContext CreateDbContext(string[] args)
     {
-        public RepositoryDbContext CreateDbContext(string[] args)
+        var optionsBuilder = new DbContextOptionsBuilder<RepositoryDbContext>();
+
+        if (args.Contains("UseInMemoryDatabase"))
+        {
+            optionsBuilder.UseInMemoryDatabase("TestDatabase");
+        }
+        else
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -21,10 +24,9 @@ namespace SnackTech.Products.Driver.DataBase.Context
             var connString = configuration.GetConnectionString("DefaultConnection")
                              ?? throw new InvalidOperationException("Connection string is not set in configuration.");
 
-            var optionsBuilder = new DbContextOptionsBuilder<RepositoryDbContext>();
             optionsBuilder.UseSqlServer(connString);
-
-            return new RepositoryDbContext(optionsBuilder.Options);
         }
+
+        return new RepositoryDbContext(optionsBuilder.Options);
     }
 }

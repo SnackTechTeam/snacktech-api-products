@@ -9,12 +9,12 @@ using TechTalk.SpecFlow;
 [Binding]
 public class ProdutosControllerPutSteps
 {
+    private readonly ProdutosController controller;
     private readonly Mock<ILogger<ProdutosController>> logger;
     private readonly Mock<IProdutoController> produtoController;
-    private readonly ProdutosController controller;
-    private IActionResult result;
     private Guid identificacaoProduto;
     private ProdutoSemIdDto produtoEditado;
+    private IActionResult result;
 
     public ProdutosControllerPutSteps()
     {
@@ -36,7 +36,8 @@ public class ProdutosControllerPutSteps
         };
 
         produtoController.Setup(p => p.EditarProduto(identificacaoProduto, produtoEditado))
-            .ReturnsAsync(new ResultadoOperacao<ProdutoDto>(new ProdutoDto { IdentificacaoProduto = identificacaoProduto }));
+            .ReturnsAsync(new ResultadoOperacao<ProdutoDto>(new ProdutoDto
+                { IdentificacaoProduto = identificacaoProduto }));
     }
 
     [When(@"eu chamar o método Put")]

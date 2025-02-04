@@ -16,6 +16,9 @@
     <DocumentationFile>bin\Release\net8.0\SnackTech.Products.Driver.API.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="coverlet.json" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,5 +34,8 @@
     <ProjectReference Include="..\..\common\SnackTech.Products.Common\SnackTech.Products.Common.csproj" />
     <ProjectReference Include="..\..\core\SnackTech.Products.Core\SnackTech.Products.Core.csproj" />
     <ProjectReference Include="..\..\infra.persistence\SnackTech.Products.Driver.DataBase\SnackTech.Products.Driver.DataBase.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="coverlet.json" />
   </ItemGroup>
 </Project>

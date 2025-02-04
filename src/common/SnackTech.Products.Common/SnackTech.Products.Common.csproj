@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\ApiSource\" />
-    <Folder Include="Interfaces\ApiSources\" />
+    <Compile Remove="Dto\ApiSource\**" />
+    <Compile Remove="Interfaces\ApiSources\**" />
+    <EmbeddedResource Remove="Dto\ApiSource\**" />
+    <EmbeddedResource Remove="Interfaces\ApiSources\**" />
+    <None Remove="Dto\ApiSource\**" />
+    <None Remove="Interfaces\ApiSources\**" />
   </ItemGroup>
 
 </Project>

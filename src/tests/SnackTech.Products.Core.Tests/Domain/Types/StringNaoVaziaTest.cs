@@ -48,7 +48,10 @@ public class StringNaoVaziaTest
     {
         string valor = null;
 
-        Assert.Throws<ArgumentException>(() => {StringNaoVazia stringNaoVazia = valor; });
+        Assert.Throws<ArgumentException>(() =>
+        {
+            StringNaoVazia stringNaoVazia = valor;
+        });
     }
 
     [Fact]

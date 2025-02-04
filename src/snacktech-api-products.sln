@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnackTech.Products.Core.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnackTech.Products.Driver.API.Tests", "tests\SnackTech.Products.Driver.API.Tests\SnackTech.Products.Driver.API.Tests.csproj", "{4095479E-D5AF-49DC-8E7D-62D53F52846B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnackTech.Products.Driver.DataBase.Tests", "tests\SnackTech.Products.Driver.DataBase.Tests\SnackTech.Products.Driver.DataBase.Tests.csproj", "{807E6CA6-B5A4-49C0-BD76-ED211048188F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{4095479E-D5AF-49DC-8E7D-62D53F52846B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4095479E-D5AF-49DC-8E7D-62D53F52846B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4095479E-D5AF-49DC-8E7D-62D53F52846B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{807E6CA6-B5A4-49C0-BD76-ED211048188F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{807E6CA6-B5A4-49C0-BD76-ED211048188F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{807E6CA6-B5A4-49C0-BD76-ED211048188F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{807E6CA6-B5A4-49C0-BD76-ED211048188F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{5FCF8E08-1FFF-4FB2-91D6-E0C555C4587D} = {1EDED837-E83D-49B5-A7DF-066A7105DF2F}
 		{3236A14F-92DC-43BC-BFC9-FE7CD2420191} = {984A6F53-D819-461F-A5C6-20ABEB936F8B}
 		{4095479E-D5AF-49DC-8E7D-62D53F52846B} = {984A6F53-D819-461F-A5C6-20ABEB936F8B}
+		{807E6CA6-B5A4-49C0-BD76-ED211048188F} = {984A6F53-D819-461F-A5C6-20ABEB936F8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52458007-70F3-4147-9721-FAA7869B8DC0}

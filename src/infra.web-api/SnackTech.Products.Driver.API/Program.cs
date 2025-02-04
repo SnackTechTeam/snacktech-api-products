@@ -1,8 +1,6 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using SnackTech.Products.Common.Dto;
-using SnackTech.Products.Driver.DataBase;
-using System.Reflection;
 using SnackTech.Products.Driver.API.Configuration;
 using SnackTech.Products.Driver.API.Configuration.HealthChecks;
 using SnackTech.Products.Driver.DataBase;
@@ -28,13 +26,11 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
-string dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
 
 if (string.IsNullOrEmpty(dbConnectionString))
-{
     throw new InvalidOperationException(
         "Could not find a connection string named 'DefaultConnection'.");
-}
 
 builder.Services.AddDbContext<RepositoryDbContext>(options =>
     options.UseSqlServer(dbConnectionString));
@@ -47,16 +43,10 @@ using var scope = app.Services.CreateScope();
 await using var dbContext = scope.ServiceProvider.GetRequiredService<RepositoryDbContext>();
 await dbContext.Database.MigrateAsync();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
+if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage();
 
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SnackTechProducts API v1");
-});
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SnackTechProducts API v1"); });
 
 //app.UseHttpsRedirection();
 app.UseCustomHealthChecks();

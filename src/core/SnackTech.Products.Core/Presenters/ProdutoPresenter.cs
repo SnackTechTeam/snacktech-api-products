@@ -5,12 +5,15 @@ namespace SnackTech.Products.Core.Presenters;
 
 internal static class ProdutoPresenter
 {
-    internal static ResultadoOperacao<ProdutoDto> ApresentarResultadoProduto(Produto produto){
-        ProdutoDto produtoDto = ConverterParaDto(produto);
+    internal static ResultadoOperacao<ProdutoDto> ApresentarResultadoProduto(Produto produto)
+    {
+        var produtoDto = ConverterParaDto(produto);
         return new ResultadoOperacao<ProdutoDto>(produtoDto);
     }
 
-    internal static ResultadoOperacao<IEnumerable<ProdutoDto>> ApresentarResultadoListaProdutos(IEnumerable<Produto> produtos){
+    internal static ResultadoOperacao<IEnumerable<ProdutoDto>> ApresentarResultadoListaProdutos(
+        IEnumerable<Produto> produtos)
+    {
         var produtosDtos = produtos.Select(ConverterParaDto);
         return new ResultadoOperacao<IEnumerable<ProdutoDto>>(produtosDtos);
     }
