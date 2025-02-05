@@ -380,3 +380,4 @@ FodyWeavers.xsd
 # Arquivos relacionados a testes
 src/merged.cobertura.xml
 **/*.feature.cs
+/src/coverageReport

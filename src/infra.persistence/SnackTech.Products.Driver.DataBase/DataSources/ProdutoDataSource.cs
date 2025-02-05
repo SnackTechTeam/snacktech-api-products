@@ -5,9 +5,11 @@ using SnackTech.Products.Common.Interfaces.DataSources;
 using SnackTech.Products.Driver.DataBase.Context;
 using SnackTech.Products.Driver.DataBase.Entities;
 using SnackTech.Products.Driver.DataBase.Util;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SnackTech.Products.Driver.DataBase.DataSources;
 
+[ExcludeFromCodeCoverage]
 public class ProdutoDataSource(RepositoryDbContext repositoryDbContext) : IProdutoDataSource
 {
     private readonly RepositoryDbContext _repositoryDbContext = repositoryDbContext;
