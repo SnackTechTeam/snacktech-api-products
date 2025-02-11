@@ -80,7 +80,7 @@ jobs:
         echo "Coverage Percentage: ${{ steps.coverage.outputs.coverage_percentage }}%"
     
     - name: Upload Coverage Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: CoverageReport
         path: ./CoverageReport
