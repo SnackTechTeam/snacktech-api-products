@@ -78,6 +78,13 @@ jobs:
     - name: Print Coverage Percentage
       run: |
         echo "Coverage Percentage: ${{ steps.coverage.outputs.coverage_percentage }}%"
+    
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: CoverageReport
+        path: ./CoverageReport
+
 
   ## Adicionar os passos de deploy aqui, colocar check para que só ocorra se for um pull request para main 
   deploy:
