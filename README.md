@@ -1,10 +1,4 @@
-# SnackTech ![ ](LogoSnackTech.png)
-
-#### [Video de apresentação Fase 2](https://www.youtube.com/watch?v=jzBI3kgGVEs) 
-#### [Video de apresentação Fase 3](https://www.youtube.com/watch?v=iPNvz7QVQVg) 
-
-
-## SERVIÇO DE PRODUTOS SNACKTECH
+# SnackTech - Produtos ![ ](LogoSnackTech.png)
 
 Este é um projeto desenvolvido em .NET, utilizando arquitetura limpa. A aplicação é um serviço que se comunica com um banco de dados SQL Server. O projeto está configurado para ser executado em contêineres Docker, facilitando a implantação e escalabilidade.
 
