@@ -7,7 +7,6 @@ public class CategoriaProdutoValidoTest
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
-
     [InlineData(99)]
     public void CategoriaProdutoValido_NaoPodeSerValorInvalido(int valor)
     {

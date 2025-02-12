@@ -1,46 +1,49 @@
-namespace SnackTech.Products.Core.Domain.Types
+namespace SnackTech.Products.Core.Domain.Types;
+
+internal struct DecimalPositivo : IEquatable<DecimalPositivo>
 {
-    internal struct DecimalPositivo : IEquatable<DecimalPositivo>
+    private decimal valor;
+
+    internal decimal Valor
     {
-        private decimal valor;
-
-        internal decimal Valor{
-            readonly get {return valor;}
-            set{
-                ValidarValor(value);
-                valor = value;
-            }
-        }
-
-        internal DecimalPositivo(decimal valor){
-            Valor = valor;
-        }
-
-        public static implicit operator DecimalPositivo(decimal valor){
-            return new DecimalPositivo(valor);
-        }
-
-        public static implicit operator decimal(DecimalPositivo valor){
-            return valor.Valor;
-        }
-
-        public override readonly string ToString()
+        readonly get => valor;
+        set
         {
-            return Valor.ToString();
+            ValidarValor(value);
+            valor = value;
         }
+    }
 
-        private static void ValidarValor(decimal value){
-            if(value < 0){
-                throw new ArgumentException("O valor precisa ser maior que zero");
-            }
-        }
+    internal DecimalPositivo(decimal valor)
+    {
+        Valor = valor;
+    }
 
-        public bool Equals(DecimalPositivo other)
-        {
-            if (other == null) return false;
-            if (ReferenceEquals(this, other)) return true;
+    public static implicit operator DecimalPositivo(decimal valor)
+    {
+        return new DecimalPositivo(valor);
+    }
 
-            return this.Valor == other.Valor;
-        }
+    public static implicit operator decimal(DecimalPositivo valor)
+    {
+        return valor.Valor;
+    }
+
+    public readonly override string ToString()
+    {
+        return Valor.ToString();
+    }
+
+    private static void ValidarValor(decimal value)
+    {
+        if (value < 0) throw new ArgumentException("O valor precisa ser maior que zero");
+    }
+
+    public bool Equals(DecimalPositivo other)
+    {
+        if (other == null) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Valor == other.Valor;
     }
 }

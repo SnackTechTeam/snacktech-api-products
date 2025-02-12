@@ -11,7 +11,8 @@ public class ProdutoPresenterTest
 
     public ProdutoPresenterTest()
     {
-        _produtoExemplo = new Produto(Guid.NewGuid(), CategoriaProdutoValido.Acompanhamento, "nome", "descricao", 9.99m);
+        _produtoExemplo =
+            new Produto(Guid.NewGuid(), CategoriaProdutoValido.Acompanhamento, "nome", "descricao", 9.99m);
     }
 
     [Fact]
@@ -19,7 +20,7 @@ public class ProdutoPresenterTest
     {
         // Act
         var produtoDto = ProdutoPresenter.ConverterParaDto(_produtoExemplo);
-    
+
         // Assert
         produtoDto.Should().NotBeNull();
         produtoDto.IdentificacaoProduto.Should().Be(_produtoExemplo.Id.Valor);
@@ -28,13 +29,13 @@ public class ProdutoPresenterTest
         produtoDto.Nome.Should().Be(_produtoExemplo.Nome.Valor);
         produtoDto.Valor.Should().Be(_produtoExemplo.Valor.Valor);
     }
-    
+
     [Fact]
     public void ApresentarResultadoProduto_DeveRetornarResultadoOperacaoComProdutoDto()
     {
         // Act
         var resultado = ProdutoPresenter.ApresentarResultadoProduto(_produtoExemplo);
-    
+
         // Assert
         resultado.Should().NotBeNull();
         resultado.Dados.Should().NotBeNull();
@@ -44,7 +45,7 @@ public class ProdutoPresenterTest
         resultado.Dados.Nome.Should().Be(_produtoExemplo.Nome.Valor);
         resultado.Dados.Valor.Should().Be(_produtoExemplo.Valor.Valor);
     }
-    
+
     [Fact]
     public void ApresentarResultadoListaProdutos_DeveRetornarResultadoOperacaoComListaProdutoDto()
     {
@@ -52,12 +53,12 @@ public class ProdutoPresenterTest
         var produtos = new List<Produto>
         {
             _produtoExemplo,
-            new Produto(Guid.NewGuid(), CategoriaProdutoValido.Bebida, "Nome 2", "Descrição 2", 20.99m)
+            new(Guid.NewGuid(), CategoriaProdutoValido.Bebida, "Nome 2", "Descrição 2", 20.99m)
         };
-    
+
         // Act
         var resultado = ProdutoPresenter.ApresentarResultadoListaProdutos(produtos);
-    
+
         // Assert
         resultado.Should().NotBeNull();
         resultado.Dados.Should().NotBeNull();

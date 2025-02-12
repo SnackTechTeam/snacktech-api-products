@@ -1,0 +1,5 @@
+{
+  "exclude": [
+    "[SnackTech.Products.Driver.API]Program.cs"
+  ]
+}

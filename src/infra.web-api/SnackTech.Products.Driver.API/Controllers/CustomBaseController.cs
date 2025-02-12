@@ -4,56 +4,58 @@ using SnackTech.Products.Common.Dto.Api;
 using SnackTech.Products.Driver.API.CustomResponses;
 
 [assembly: InternalsVisibleTo("SnackTech.Products.Driver.API.Tests")]
-namespace SnackTech.Products.Driver.API.Controllers
+
+namespace SnackTech.Products.Driver.API.Controllers;
+
+public abstract class CustomBaseController(ILogger logger) : ControllerBase
 {
-    public abstract class CustomBaseController(ILogger logger) : ControllerBase
+    private readonly ILogger logger = logger;
+
+    internal async Task<IActionResult> ExecucaoPadrao<T>(string nomeMetodo, Task<ResultadoOperacao<T>> processo)
     {
-        private readonly ILogger logger = logger;
-
-        internal async Task<IActionResult> ExecucaoPadrao<T>(string nomeMetodo, Task<ResultadoOperacao<T>> processo)
+        try
         {
-            try
-            {
-                var resultado = await processo;
+            var resultado = await processo;
 
-                if (resultado.TeveSucesso())
-                    return Ok(resultado.Dados);
+            if (resultado.TeveSucesso())
+                return Ok(resultado.Dados);
 
-                if (resultado.TeveExcecao())
-                    return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(resultado.Mensagem, new ExceptionResponse(resultado.Excecao)));
+            if (resultado.TeveExcecao())
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new ErrorResponse(resultado.Mensagem, new ExceptionResponse(resultado.Excecao)));
 
-                var errorResponse = new ErrorResponse(resultado.Mensagem, null);
-                return BadRequest(errorResponse);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "{Metodo} - Exception - {Message}", nomeMetodo, ex.Message);
-                var retorno = new ErrorResponse(ex.Message, new ExceptionResponse(ex));
-                return StatusCode(StatusCodes.Status500InternalServerError, retorno);
-            }
+            var errorResponse = new ErrorResponse(resultado.Mensagem, null);
+            return BadRequest(errorResponse);
         }
-
-        internal async Task<IActionResult> ExecucaoPadrao(string nomeMetodo, Task<ResultadoOperacao> processo)
+        catch (Exception ex)
         {
-            try
-            {
-                var resultado = await processo;
+            logger.LogError(ex, "{Metodo} - Exception - {Message}", nomeMetodo, ex.Message);
+            var retorno = new ErrorResponse(ex.Message, new ExceptionResponse(ex));
+            return StatusCode(StatusCodes.Status500InternalServerError, retorno);
+        }
+    }
 
-                if (resultado.TeveSucesso())
-                    return Ok();
+    internal async Task<IActionResult> ExecucaoPadrao(string nomeMetodo, Task<ResultadoOperacao> processo)
+    {
+        try
+        {
+            var resultado = await processo;
 
-                if (resultado.TeveExcecao())
-                    return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(resultado.Mensagem, new ExceptionResponse(resultado.Excecao)));
+            if (resultado.TeveSucesso())
+                return Ok();
 
-                var errorResponse = new ErrorResponse(resultado.Mensagem, null);
-                return BadRequest(errorResponse);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "{Metodo} - Exception - {Message}", nomeMetodo, ex.Message);
-                var retorno = new ErrorResponse(ex.Message, new ExceptionResponse(ex));
-                return StatusCode(StatusCodes.Status500InternalServerError, retorno);
-            }
+            if (resultado.TeveExcecao())
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new ErrorResponse(resultado.Mensagem, new ExceptionResponse(resultado.Excecao)));
+
+            var errorResponse = new ErrorResponse(resultado.Mensagem, null);
+            return BadRequest(errorResponse);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "{Metodo} - Exception - {Message}", nomeMetodo, ex.Message);
+            var retorno = new ErrorResponse(ex.Message, new ExceptionResponse(ex));
+            return StatusCode(StatusCodes.Status500InternalServerError, retorno);
         }
     }
 }

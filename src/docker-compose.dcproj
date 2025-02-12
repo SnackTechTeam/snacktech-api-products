@@ -15,5 +15,6 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="tests\SnackTech.Products.Core.Tests\Controller\ProdutoControllerTests.cs" />
   </ItemGroup>
 </Project>

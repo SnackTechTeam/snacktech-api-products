@@ -30,7 +30,7 @@ public class GuidValidoTest
         var valor = Guid.NewGuid().ToString();
 
         GuidValido guidValido = valor;
-        GuidValido expected = new GuidValido(valor);
+        var expected = new GuidValido(valor);
 
         Assert.Equal(expected, guidValido);
     }

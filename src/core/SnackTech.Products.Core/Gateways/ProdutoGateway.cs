@@ -6,44 +6,46 @@ using SnackTech.Products.Core.Domain.Types;
 namespace SnackTech.Products.Core.Gateways;
 
 internal class ProdutoGateway(IProdutoDataSource dataSource)
-{       
-    internal async Task<Produto?> ProcurarProdutoPorNome(StringNaoVaziaOuComEspacos nome){
+{
+    internal async Task<Produto?> ProcurarProdutoPorNome(StringNaoVaziaOuComEspacos nome)
+    {
         var produtoDto = await dataSource.PesquisarPorNomeAsync(nome.ToString());
 
-        if(produtoDto == null || produtoDto.Id == Guid.Empty){
-            return null;
-        }
-
-        return ConverterParaEntidade(produtoDto);
-    }     
-
-    internal async Task<Produto?> ProcurarProdutoPorIdentificacao(GuidValido id){
-        var produtoDto = await dataSource.PesquisarPorIdentificacaoAsync(id);
-
-        if(produtoDto == null || produtoDto.Id == Guid.Empty){
-            return null;
-        }
+        if (produtoDto == null || produtoDto.Id == Guid.Empty) return null;
 
         return ConverterParaEntidade(produtoDto);
     }
 
-    internal async Task<bool> CadastrarNovoProduto(Produto novoProduto){            
-        ProdutoDto dto = ConverterParaDto(novoProduto);
+    internal async Task<Produto?> ProcurarProdutoPorIdentificacao(GuidValido id)
+    {
+        var produtoDto = await dataSource.PesquisarPorIdentificacaoAsync(id);
+
+        if (produtoDto == null || produtoDto.Id == Guid.Empty) return null;
+
+        return ConverterParaEntidade(produtoDto);
+    }
+
+    internal async Task<bool> CadastrarNovoProduto(Produto novoProduto)
+    {
+        var dto = ConverterParaDto(novoProduto);
 
         return await dataSource.InserirProdutoAsync(dto);
     }
 
-    internal async Task<bool> AtualizarProduto(Produto produtoAlterado){
-        ProdutoDto dto = ConverterParaDto(produtoAlterado);
+    internal async Task<bool> AtualizarProduto(Produto produtoAlterado)
+    {
+        var dto = ConverterParaDto(produtoAlterado);
 
         return await dataSource.AlterarProdutoAsync(dto);
     }
 
-    internal async Task<bool> RemoverProduto(GuidValido id){
+    internal async Task<bool> RemoverProduto(GuidValido id)
+    {
         return await dataSource.RemoverProdutoPorIdentificacaoAsync(id);
     }
 
-    internal async Task<IEnumerable<Produto>> ProcurarProdutosPorCategoria(CategoriaProdutoValido categoriaProduto){
+    internal async Task<IEnumerable<Produto>> ProcurarProdutosPorCategoria(CategoriaProdutoValido categoriaProduto)
+    {
         var produtosDto = await dataSource.PesquisarPorCategoriaIdAsync(categoriaProduto);
 
         return produtosDto.Select(ConverterParaEntidade);

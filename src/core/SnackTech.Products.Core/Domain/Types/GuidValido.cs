@@ -34,21 +34,16 @@ internal struct GuidValido : IEquatable<GuidValido>
         return guid.Valor.ToString();
     }
 
-    public override readonly string ToString()
+    public readonly override string ToString()
     {
         return Valor.ToString();
     }
 
     private static Guid ValidarValor(string guidValue)
     {
-        if (Guid.TryParse(guidValue, out Guid guid))
-        {
-            return guid;
-        }
-        else
-        {
-            throw new ArgumentException($"A Identificação informada {guidValue} não é um Guid válido.");
-        }
+        if (Guid.TryParse(guidValue, out var guid)) return guid;
+
+        throw new ArgumentException($"A Identificação informada {guidValue} não é um Guid válido.");
     }
 
     public bool Equals(GuidValido other)
@@ -56,6 +51,6 @@ internal struct GuidValido : IEquatable<GuidValido>
         if (other == null) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return this.Valor == other.Valor;
+        return Valor == other.Valor;
     }
 }

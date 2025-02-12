@@ -5,94 +5,90 @@ using SnackTech.Products.Common.Interfaces.DataSources;
 using SnackTech.Products.Driver.DataBase.Context;
 using SnackTech.Products.Driver.DataBase.Entities;
 using SnackTech.Products.Driver.DataBase.Util;
+using System.Diagnostics.CodeAnalysis;
 
-namespace SnackTech.Products.Driver.DataBase.DataSources
+namespace SnackTech.Products.Driver.DataBase.DataSources;
+
+[ExcludeFromCodeCoverage]
+public class ProdutoDataSource(RepositoryDbContext repositoryDbContext) : IProdutoDataSource
 {
-    public class ProdutoDataSource(RepositoryDbContext repositoryDbContext) : IProdutoDataSource
+    private readonly RepositoryDbContext _repositoryDbContext = repositoryDbContext;
+
+    public async Task<bool> AlterarProdutoAsync(ProdutoDto produtoAlterado)
     {
-        private readonly RepositoryDbContext _repositoryDbContext = repositoryDbContext;
-        public async Task<bool> AlterarProdutoAsync(ProdutoDto produtoAlterado)
-        {
-            var produtoEntity = Mapping.Mapper.Map<Produto>(produtoAlterado);
+        var produtoEntity = Mapping.Mapper.Map<Produto>(produtoAlterado);
 
-            _repositoryDbContext.Entry(produtoEntity).State = EntityState.Modified;
-            await _repositoryDbContext.SaveChangesAsync();
-            
-            return true;
-        }
+        _repositoryDbContext.Entry(produtoEntity).State = EntityState.Modified;
+        await _repositoryDbContext.SaveChangesAsync();
 
-        public async Task<bool> InserirProdutoAsync(ProdutoDto produtoNovo)
-        {
-            var produtoEntity = Mapping.Mapper.Map<Produto>(produtoNovo);
+        return true;
+    }
 
-            bool existe = await _repositoryDbContext.Produtos
-                .AnyAsync(p => (int)p.Categoria == produtoNovo.Categoria && p.Nome == produtoNovo.Nome);
-            if (existe)
-                throw new ProdutoRepositoryException("Já existe um produto com o mesmo nome e categoria no sistema.");
+    public async Task<bool> InserirProdutoAsync(ProdutoDto produtoNovo)
+    {
+        var produtoEntity = Mapping.Mapper.Map<Produto>(produtoNovo);
 
-            _repositoryDbContext.Add(produtoEntity);
-            var resultado = await _repositoryDbContext.SaveChangesAsync();
-            
-            return resultado > 0;
-        }
+        var existe = await _repositoryDbContext.Produtos
+            .AnyAsync(p => (int)p.Categoria == produtoNovo.Categoria && p.Nome == produtoNovo.Nome);
+        if (existe)
+            throw new ProdutoRepositoryException("Já existe um produto com o mesmo nome e categoria no sistema.");
 
-        public async Task<IEnumerable<ProdutoDto>> PesquisarPorCategoriaIdAsync(int categoriaId)
-        {
-            var produtosBanco = await _repositoryDbContext.Produtos
-                   .AsNoTracking()
-                   .Where(p => (int)p.Categoria == categoriaId)
-                   .ToListAsync();
+        _repositoryDbContext.Add(produtoEntity);
+        var resultado = await _repositoryDbContext.SaveChangesAsync();
 
-            return produtosBanco.Select(Mapping.Mapper.Map<ProdutoDto>);
-        }
+        return resultado > 0;
+    }
 
-        public async Task<ProdutoDto?> PesquisarPorIdentificacaoAsync(Guid identificacao)
-        {
-            var produtoBanco = await _repositoryDbContext.Produtos
-                .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Id == identificacao);
+    public async Task<IEnumerable<ProdutoDto>> PesquisarPorCategoriaIdAsync(int categoriaId)
+    {
+        var produtosBanco = await _repositoryDbContext.Produtos
+            .AsNoTracking()
+            .Where(p => (int)p.Categoria == categoriaId)
+            .ToListAsync();
 
-            if(produtoBanco == null)
-            {
-                return null;
-            }
+        return produtosBanco.Select(Mapping.Mapper.Map<ProdutoDto>);
+    }
 
-            return Mapping.Mapper.Map<ProdutoDto>(produtoBanco);
-        }
+    public async Task<ProdutoDto?> PesquisarPorIdentificacaoAsync(Guid identificacao)
+    {
+        var produtoBanco = await _repositoryDbContext.Produtos
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == identificacao);
 
-        public async Task<ProdutoDto?> PesquisarPorNomeAsync(string nome)
-        {
-            var produtoBanco = await _repositoryDbContext.Produtos
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(p => p.Nome == nome);
+        if (produtoBanco == null) return null;
 
-            if (produtoBanco == null)
-            {
-                return null;
-            }
+        return Mapping.Mapper.Map<ProdutoDto>(produtoBanco);
+    }
 
-            return Mapping.Mapper.Map<ProdutoDto>(produtoBanco);
-        }
+    public async Task<ProdutoDto?> PesquisarPorNomeAsync(string nome)
+    {
+        var produtoBanco = await _repositoryDbContext.Produtos
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Nome == nome);
 
-        public async Task<bool> RemoverProdutoPorIdentificacaoAsync(Guid identificacao)
-        {
-            var produto = await _repositoryDbContext.Produtos
-                 .FirstOrDefaultAsync(p => p.Id == identificacao);
+        if (produtoBanco == null) return null;
 
-            if (produto is null)
-                return false;
+        return Mapping.Mapper.Map<ProdutoDto>(produtoBanco);
+    }
 
-            //TODO: Realizar validação se existe o pedido no ms de pedidos
-            //var existeItemAssociado = await _repositoryDbContext.PedidoItens
-            //    .AnyAsync(p => p.Produto.Id == identificacao);
+    public async Task<bool> RemoverProdutoPorIdentificacaoAsync(Guid identificacao)
+    {
+        var produto = await _repositoryDbContext.Produtos
+            .FirstOrDefaultAsync(p => p.Id == identificacao);
 
-            //if (existeItemAssociado)
-            //    throw new ProdutoRepositoryException("Não foi possível remover o produto. Existem itens de pedidos associados a este produto.");
+        if (produto is null)
+            return false;
 
-            _repositoryDbContext.Produtos.Remove(produto);
-            var resultado = await _repositoryDbContext.SaveChangesAsync();
-            
-            return resultado > 0;
-        }
+        //TODO: Realizar validação se existe o pedido no ms de pedidos
+        //var existeItemAssociado = await _repositoryDbContext.PedidoItens
+        //    .AnyAsync(p => p.Produto.Id == identificacao);
+
+        //if (existeItemAssociado)
+        //    throw new ProdutoRepositoryException("Não foi possível remover o produto. Existem itens de pedidos associados a este produto.");
+
+        _repositoryDbContext.Produtos.Remove(produto);
+        var resultado = await _repositoryDbContext.SaveChangesAsync();
+
+        return resultado > 0;
     }
 }
