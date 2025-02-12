@@ -132,13 +132,23 @@ jobs:
         run: |
           aws eks --region ${{ vars.AWS_REGION }} update-kubeconfig --name ${{ vars.PROJECT_NAME }}
       
-      - name: Replace connection string value
+      - name: Create/Update Secrets
         env:
-          MSSQL_CONNECTION_STRING: Server=${{ secrets.DB_INSTANCE_PRODUTOS }},${{ vars.DB_PORT }};Database=SnackTechProductsDb;User=${{ secrets.DB_UID_PRODUTOS }};Password=${{ secrets.DB_PASSWORD_PRODUTOS }};TrustServerCertificate=True
+          DB_INSTANCE_PRODUTOS: ${{ secrets.DB_INSTANCE_PRODUTOS }}
+          DB_PASSWORD_PRODUTOS: ${{ secrets.DB_PASSWORD_PRODUTOS }}
+          DB_UID_PRODUTOS: ${{ secrets.DB_UID_PRODUTOS }}
+          DB_PORT: ${{ vars.DB_PORT }}
         run: |
-          CONNECTION_STRING_B64=$(echo "$MSSQL_CONNECTION_STRING" | base64)
-          yq e '.data["msslq-connection-string"] = "'"$CONNECTION_STRING_B64"'"' -i src/infra/eks/api/01-products-api-secret.yaml || { echo "Error updating msslq-connection-string value"; exit 1; }
+          SECRET_NAME="api-products-secret"
+          CONNECTION_STRING="Server=${{ env.DB_INSTANCE_PRODUTOS }},${{ env.DB_PORT }};Database=SnackTechProductsDb;User=${{ env.DB_UID_PRODUTOS }};Password=${{ env.DB_PASSWORD_PRODUTOS }};TrustServerCertificate=True"
       
+          if kubectl get secret "$SECRET_NAME" > /dev/null 2>&1; then
+            kubectl delete secret "$SECRET_NAME" 
+          fi
+      
+          kubectl create secret generic "$SECRET_NAME"  \
+            --from-literal=ConnectionStrings__DefaultConnection="$CONNECTION_STRING"
+
       - name: Replace ECR image string value
         env:
           IMAGE_URI: ${{ steps.build-image.outputs.image }}
