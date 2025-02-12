@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using SnackTech.Products.Common.Dto.Api;
 using SnackTech.Products.Core.Domain.Entities;
 using SnackTech.Products.Core.Domain.Types;
@@ -6,6 +8,7 @@ using SnackTech.Products.Core.Presenters;
 
 namespace SnackTech.Products.Core.UseCases;
 
+[ExcludeFromCodeCoverage]
 internal static class ProdutoUseCase
 {
     internal static async Task<ResultadoOperacao<ProdutoDto>> CriarNovoProduto(ProdutoSemIdDto produtoDto,
