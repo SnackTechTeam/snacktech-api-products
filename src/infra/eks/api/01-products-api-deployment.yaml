@@ -14,14 +14,13 @@ spec:
       containers:
         - name: api-products-container
           image: # valor será incluido no pipeline
+          envFrom: # Use envFrom to load from ConfigMap and Secret
+            - secretRef:
+                name: api-products-secret
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
-            - name: ConnectionStrings__DefaultConnection
-              valueFrom:
-                secretKeyRef:
-                  name: api-products-secret
-                  key: msslq-connection-string
+
           resources:
             requests:
               memory: "128Mi"
