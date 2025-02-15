@@ -381,3 +381,4 @@ FodyWeavers.xsd
 src/merged.cobertura.xml
 **/*.feature.cs
 /src/coverageReport
+.sonarqube/*
