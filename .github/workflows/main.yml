@@ -75,18 +75,21 @@ jobs:
         echo "Coverage Percentage: $coverage_percentage%"
         echo "coverage_percentage=$coverage_percentage" >> $GITHUB_OUTPUT
 
-    - name: Print Coverage Percentage
-      run: |
-        echo "Coverage Percentage: ${{ steps.coverage.outputs.coverage_percentage }}%"
-    
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v4
       with:
         name: CoverageReport
         path: ./CoverageReport
 
+    - name: Print Coverage Percentage and validate minimum coverage
+      run: |
+        echo "Coverage Percentage: ${{ steps.coverage.outputs.coverage_percentage }}%"
 
-  ## Adicionar os passos de deploy aqui, colocar check para que só ocorra se for um pull request para main 
+        if [[ $(bc <<< "${{ steps.coverage.outputs.coverage_percentage }} < 70.0") -eq 1 ]]; then
+          echo "Coverage percentage is less than 70%!"
+          exit 1
+        fi
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
