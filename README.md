@@ -21,6 +21,9 @@ Antes de rodar o serviço de produtos SnackTech, certifique-se de que você poss
 - **SQL Server (Opcional)**: O projeto configura e gerencia uma instância do SQL Server dentro de um container Docker. Sendo assim, a instalação do SQL Server é opcional.
 - **Kubernetes**: A aplicação é implantada em um cluster Kubernetes. Certifique-se de ter o Kubernetes instalado e configurado. Se estiver utilizando o Docker Desktop, verifique se a opção de Kubernetes está habilitada.
 
+## Cobertura de testes automatizados
+
+![Cobertura de teste](./cobertura.png)
 
 ## Equipe
 
